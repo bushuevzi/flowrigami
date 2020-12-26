@@ -4,6 +4,7 @@ import Node from '@app/flow/diagram/Node';
 import ACTION from '@app/flow/store/ActionTypes';
 import Store from '@app/flow/store/Store';
 import { textareaChange } from '@app/flow/utils/HtmlUtils';
+import Link from "@app/flow/diagram/Link";
 
 
 export default class PropertiesPanel {
@@ -30,29 +31,42 @@ export default class PropertiesPanel {
 
   public handleSetNode = () => {
     this.hideProperties();
-    const selectedShape = this.store.selectedIndicator || this.store.selectedNode;
+    const selectedShape = this.store.selectedNode || this.store.selectedConnector;
     if (selectedShape) {
       this.displayProperties(selectedShape);
     }
   };
 
-  private displayProperties = (shape: Indicator | Node) => {
+  private displayProperties = (shape: Node | Link) => {
     const panelBodyDocumentFragment = document.createDocumentFragment();
 
+    //TODO убрать с представления
     const idLabel = this.createPropertyLabelElement('ID');
     const idValue = this.createPropertyValueElement(shape.id);
     const shapeIdElement = this.createPropertyElement([idLabel, idValue]);
 
     const id = `${performance.now()}`;
-    const labelLabel = this.createPropertyLabelElement('Text', id);
+    // Наименование
+    const labelLabel = this.createPropertyLabelElement('Наименование', id);
     const labelTextarea = this.createPropertyTextareaElement(id, shape.label);
     labelTextarea.oninput = textareaChange((value) => {
       this.store.dispatch(ACTION.UPDATE_SHAPE_TEXT, { id: shape.id, text: value });
     });
     const shapeLabelElement = this.createPropertyElement([labelLabel, labelTextarea]);
 
+    // Описание
+    const descriptionLabel = this.createPropertyLabelElement('Описание', id);
+    const descriptionTextarea = this.createPropertyTextareaElement(id, shape.description);
+    descriptionTextarea.oninput = textareaChange((value) => {
+      this.store.dispatch(ACTION.UPDATE_DESCRIPTION_TEXT, { id: shape.id, text: value });
+    });
+    const shapeDescriptionElement = this.createPropertyElement([descriptionLabel, descriptionTextarea]);
+
+    // TODO здесь добавляем Свойства WorkflowSatus и Переходов, чтобы можно было бы их редактировать
+
     panelBodyDocumentFragment.appendChild(shapeIdElement);
     panelBodyDocumentFragment.appendChild(shapeLabelElement);
+    panelBodyDocumentFragment.appendChild(shapeDescriptionElement);
 
     this.propertiesPanelItems.appendChild(panelBodyDocumentFragment);
   };

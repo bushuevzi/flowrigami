@@ -51,10 +51,31 @@ export default class Dispatcher {
         const indicator = this.store.findIndicatorById(payload.id);
         if (indicator) {
           indicator.label = payload.text;
+          indicator.name = payload.text;
         } else {
           const node = this.store.findNodeById(payload.id);
           if (node) {
             node.label = payload.text;
+            node.name = payload.text;
+          }
+          else{
+            const link = this.store.findLinkById(payload.id);
+            if (link) {
+              link.label = payload.text;
+              link.name = payload.text;
+            }
+          }
+        }
+        break;
+      }
+      case ACTION.UPDATE_DESCRIPTION_TEXT: {
+        const node = this.store.findNodeById(payload.id);
+        if (node) {
+          node.description = payload.text;
+        } else{
+          const link = this.store.findLinkById(payload.id);
+          if (link) {
+            link.description = payload.text;
           }
         }
         break;

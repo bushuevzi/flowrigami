@@ -12,7 +12,7 @@ export default abstract class Node implements Shape {
   public readonly id: string;
 
   // workflowStatusId?: number;
-  public description: string;
+  public description: string = '';
 
   public x: number;
   public y: number;
@@ -58,6 +58,7 @@ export default abstract class Node implements Shape {
       label: this.label,
       x: this.x,
       y: this.y,
+      // TODO здесь добавляем параметры для экспорта WorkflowStatus
       //Свойства объекта WorkflowStatus
       // workflowStatusId: this.workflowStatusId,
       name: this.name,

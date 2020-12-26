@@ -129,6 +129,9 @@ export default class Store extends Observable {
   public findNodeById(id: string) {
     return this.nodes.find((it) => it.id === id);
   }
+  public findLinkById(id: string) {
+    return this.links.find((it) => it.id === id);
+  }
 
   public findNodeByCoordinates(x: number, y: number) {
     return this.nodes.find((it) => it.includes(x, y));

@@ -2,11 +2,22 @@ import AnchorPoint from '@app/flow/diagram/common/AnchorPoint';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import Shape from '@app/flow/graphics/Shape';
 import Guid from '@app/flow/utils/TsUtils';
+import Condition from "@app/flow/diagram/Condition";
 import nanoid from 'nanoid';
+import NodeParams from "@app/flow/diagram/NodeParams";
+import LinkParams from "@app/flow/diagram/LinkParams";
+import BpmnAnchorPoint from "@app/flow/diagram/bpmn/BpmnAnchorPoint";
 
 
 export default abstract class Link implements Shape {
   public readonly id: string;
+
+  // TODO здесь добавляем параметры для экспорта Переходов
+  public label: string = '';
+  public name: string = '';
+  public description: string = '';
+  public conditions: Condition[] = new Array();
+
   public points: AnchorPoint[];
   // @TODO check is this necessary
   public isOrthogonal = false;
@@ -45,4 +56,16 @@ export default abstract class Link implements Shape {
   public abstract movePointFinished(point: AnchorPoint): void;
 
   public abstract onHover(isHover: boolean): void;
+
+  public getParams(): LinkParams {
+    return {
+      id: this.id,
+      label: this.label,
+      //Свойства объекта WorkflowStatus
+      // workflowStatusId: this.workflowStatusId,
+      name: this.name,
+      description: this.description
+      //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+    };
+  };
 }

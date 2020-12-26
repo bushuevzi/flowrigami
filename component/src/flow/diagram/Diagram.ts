@@ -72,7 +72,9 @@ export default abstract class Diagram {
       return {
         from,
         to,
-        points: linePoints.map((point) => ({ x: point.x, y: point.y }))
+        points: linePoints.map((point) => ({ x: point.x, y: point.y })),
+        // TODO здесь добавляем параметры для экспорта Переходов
+        params: link.getParams()
       };
     });
   }
