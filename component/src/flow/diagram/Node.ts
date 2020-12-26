@@ -3,12 +3,16 @@ import NodeParams from '@app/flow/diagram/NodeParams';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import Shape from '@app/flow/graphics/Shape';
 import Store from '@app/flow/store/Store';
+import Guid from '@app/flow/utils/TsUtils';
 import nanoid from 'nanoid';
 
 
 export default abstract class Node implements Shape {
-  public abstract name: string;
+  public name: string;
   public readonly id: string;
+
+  // workflowStatusId?: number;
+  public description: string;
 
   public x: number;
   public y: number;
@@ -39,7 +43,10 @@ export default abstract class Node implements Shape {
     this.htmlLayer = htmlLayer;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    this.id = params.id || nanoid();
+    this.id = params.id || Guid.newGuid();
+    this.name = params.name || '';
+    this.description = params.description || '';
+    //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
     this._label = params.label || '';
     this.x = params.x;
     this.y = params.y;
@@ -50,7 +57,12 @@ export default abstract class Node implements Shape {
       id: this.id,
       label: this.label,
       x: this.x,
-      y: this.y
+      y: this.y,
+      //Свойства объекта WorkflowStatus
+      // workflowStatusId: this.workflowStatusId,
+      name: this.name,
+      description: this.description
+      //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
     };
   };
 

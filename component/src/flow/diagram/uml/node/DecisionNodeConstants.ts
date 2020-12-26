@@ -48,6 +48,9 @@ export const getTextParams = (params: NodeParams) => {
   const [top, right, bottom, left] = getAnchorPoints({ x: params.x, y: params.y });
   return {
     text: params.label || '',
+    name: params.name || '',
+    description: params.description || '',
+    //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
     x: 0.5*(bottom.x + right.x),
     y: bottom.y,
     maxWidth: SHAPE_LABEL_WIDTH,

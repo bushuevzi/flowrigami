@@ -20,6 +20,7 @@ import TextStyle from '@app/flow/graphics/TextStyle';
 import Store from '@app/flow/store/Store';
 import { drawTextLine } from '@app/flow/utils/CanvasUtils';
 import { shortenNumber } from '@app/flow/utils/NumberUtils';
+import Guid from '@app/flow/utils/TsUtils';
 import nanoid from 'nanoid';
 
 
@@ -32,14 +33,21 @@ export function isIndicatorColorScheme(style: any): style is IndicatorColorSchem
 export interface IndicatorParams {
   id?: string;
   label?: string;
+
+  name?: string;
+  description?: string;
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+
   x: number;
   y: number;
   radius: number;
 }
 
 export default class Indicator implements Shape {
-  public readonly id: string;
-
+  public id: string;
+  public name: string;
+  public description: string;
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
   private _label: string;
   public get label() { return this._label; }
   public set label(label: string) {
@@ -79,7 +87,12 @@ export default class Indicator implements Shape {
     this.htmlLayer = htmlLayer;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    this.id = params.id || nanoid();
+    this.id = params.id || Guid.newGuid();
+
+    this.name = params.name ||  '';
+    this.description = params.description ||  '';
+    //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+
     this._label = params.label || '';
     this.x = params.x;
     this.y = params.y;

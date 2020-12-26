@@ -1,4 +1,5 @@
 import Edge from '@app/graph/Edge';
+import Guid from '@app/flow/utils/TsUtils';
 import nanoid from 'nanoid';
 
 
@@ -7,7 +8,7 @@ export default class Vertex {
   edges: Edge[] = [];
 
   constructor() {
-    this.id = nanoid();
+    this.id = Guid.newGuid();
   }
 
   public addEdge(edge: Edge) {

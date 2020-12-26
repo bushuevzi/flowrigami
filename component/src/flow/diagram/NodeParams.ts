@@ -3,4 +3,10 @@ export default interface NodeParams {
   label?: string;
   x: number;
   y: number;
+
+  //Свойства объекта WorkflowStatus
+  // workflowStatusId?: number; // TODO нужен ли он
+  name?: string;
+  description?: string;
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
 }

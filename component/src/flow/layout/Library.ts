@@ -16,11 +16,13 @@ export default class Library {
     this.toggleControl.onclick = this.handleToggle;
 
     const documentFragment = document.createDocumentFragment();
+    //Здесь мы указываем наполнение нашей библиотеки
+    //Перечень nodes можно редактировать в классе UmlDiagram
     this.diagram.nodes.forEach((it) => {
       this.createNodeItem(documentFragment, it);
     });
-    this.createItemsDivider(documentFragment);
-    this.createIndicatorItem(documentFragment);
+    // this.createItemsDivider(documentFragment);
+    // this.createIndicatorItem(documentFragment);
 
     this.libraryElement.appendChild(documentFragment);
   }

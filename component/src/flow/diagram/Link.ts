@@ -1,6 +1,7 @@
 import AnchorPoint from '@app/flow/diagram/common/AnchorPoint';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import Shape from '@app/flow/graphics/Shape';
+import Guid from '@app/flow/utils/TsUtils';
 import nanoid from 'nanoid';
 
 
@@ -27,7 +28,7 @@ export default abstract class Link implements Shape {
     this.htmlLayer = htmlLayer;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    this.id = nanoid();
+    this.id = Guid.newGuid();
     this.points = points;
   }
 

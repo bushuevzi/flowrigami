@@ -4,12 +4,15 @@ import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import Store from '@app/flow/store/Store';
 import nanoid from 'nanoid';
 import BpmnAnchorPoint from './BpmnAnchorPoint';
+import Guid from '@app/flow/utils/TsUtils';
 
 
 // @TODO temporarily kept only for bpmn (must replaced width NodeShape)
 export default abstract class BpmnNode {
   public id: string;
-  public abstract name: string;
+  public name: string;
+  public description: string;
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
   public label = '';
 
   public coordinates: Coordinates;
@@ -20,7 +23,9 @@ export default abstract class BpmnNode {
   public isEditing = false;
 
   constructor(coordinates: Coordinates) {
-    this.id = nanoid();
+    this.id = Guid.newGuid();
+    this.name = '';
+    this.description = '';
     this.coordinates = coordinates;
   }
 
@@ -36,6 +41,11 @@ export default abstract class BpmnNode {
       params: {
         id: this.id,
         label: this.label,
+
+        name: this.name || '',
+        description: this.description || '',
+        //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+
         x: this.coordinates.x,
         y: this.coordinates.y
       },

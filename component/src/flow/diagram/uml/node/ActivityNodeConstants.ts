@@ -58,6 +58,11 @@ export const getTextParams = (params: NodeParams) => ({
   text: params.label || '',
   x: params.x,
   y: params.y,
+
+  name: params.name || '',
+  description: params.description || '',
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+
   maxWidth: SHAPE_LABEL_WIDTH,
   maxHeight: SHAPE_LABEL_HEIGHT,
 });

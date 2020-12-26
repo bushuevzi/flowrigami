@@ -39,6 +39,9 @@ export const getCircleSelectionParams = ({ x, y }: CoordinatePoint) => ({
 
 export const getTextParams = (params: NodeParams) => ({
   text: params.label || '',
+  name: params.name || '',
+  description: params.description || '',
+  //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
   x: params.x + 0.5*CIRCLE_RADIUS,
   y: params.y + 1.5*CIRCLE_RADIUS,
   maxWidth: SHAPE_LABEL_WIDTH,

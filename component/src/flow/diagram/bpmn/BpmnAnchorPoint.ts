@@ -3,6 +3,7 @@ import Circle from '@app/flow/geometry/Circle';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import CanvasCircle from '@app/flow/graphics/canvas/shapes/CanvasCircle';
 import ShapeStyle from '@app/flow/graphics/ShapeStyle';
+import Guid from '@app/flow/utils/TsUtils';
 import nanoid from 'nanoid';
 
 
@@ -47,7 +48,7 @@ export default class BpmnAnchorPoint extends EventTarget {
 
   constructor(ctx: CanvasRenderingContext2D, { x, y }: CoordinatePoint, orientation: Orientation | null = null) {
     super();
-    this.id = nanoid();
+    this.id = Guid.newGuid();
     this.x = x;
     this.y = y;
     this.orientation = orientation;
