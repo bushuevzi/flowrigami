@@ -5,6 +5,7 @@ import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import CanvasLine from '@app/flow/graphics/canvas/shapes/CanvasLine';
 import ShapeStyle from '@app/flow/graphics/ShapeStyle';
 import { createOrthogonalLine } from '@app/flow/utils/LineUtils';
+import LinkParams from "@app/flow/diagram/LinkParams";
 
 
 const INDENT = 20;
@@ -23,8 +24,8 @@ export default class DirectionalLink extends Link {
   private line: CanvasLine;
   private inflectionPoints: AnchorPoint[];
 
-  constructor(canvas: HTMLCanvasElement, htmlLayer: HTMLElement, points: AnchorPoint[], isOrthogonal: boolean = true) {
-    super(canvas, htmlLayer, points);
+  constructor(canvas: HTMLCanvasElement, htmlLayer: HTMLElement, points: AnchorPoint[], isOrthogonal: boolean = true, params: LinkParams) {
+    super(canvas, htmlLayer, points, params);
 
     this.isOrthogonal = isOrthogonal;
     if (isOrthogonal) {

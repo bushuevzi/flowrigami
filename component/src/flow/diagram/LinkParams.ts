@@ -1,4 +1,5 @@
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
+import Condition from "@app/flow/diagram/Condition";
 
 
 export default interface LinkParams {
@@ -9,5 +10,6 @@ export default interface LinkParams {
   label?: string;
   name?: string;
   description?: string;
+  conditions: Condition[];
 }
 

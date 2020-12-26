@@ -11,6 +11,9 @@ import CanvasGrabbingEventListener from '@app/flow/layout/workspace/listeners/Ca
 import ACTION from '@app/flow/store/ActionTypes';
 import MoveShape from '@app/flow/store/history/actions/MoveShape';
 import Store from '@app/flow/store/Store';
+import Guid from "@app/flow/utils/TsUtils";
+import Condition from "@app/flow/diagram/Condition";
+import LinkParams from "@app/flow/diagram/LinkParams";
 
 
 export default class CanvasEventListener {
@@ -223,7 +226,13 @@ export default class CanvasEventListener {
       this.isMovableShape = false;
 
       const nextPoint = new AnchorPoint(this.ctx, { x: pointConnection.x, y: pointConnection.y });
-      const directionalLink = this.diagram.nodeFactory.getLink([pointConnection, nextPoint]);
+      const directionalLink = this.diagram.nodeFactory.getLink([pointConnection, nextPoint], new class implements LinkParams{
+        id = Guid.newGuid();
+        label = '';
+        name = '';
+        description = '';
+        conditions = new Array()
+      });
       this.anchorPoint = nextPoint;
       this.anchorPointLink = directionalLink;
 
@@ -273,7 +282,13 @@ export default class CanvasEventListener {
     }
 
     if (connectedPoint && (connectedPoint.x !== newConnection.points[0].x || connectedPoint.y !== newConnection.points[0].y)) {
-      const createdConnector = this.diagram.nodeFactory.getLink([newConnection.points[0], connectedPoint]);
+      const createdConnector = this.diagram.nodeFactory.getLink([newConnection.points[0], connectedPoint], new class implements LinkParams{
+        id = Guid.newGuid();
+        label = '';
+        name = '';
+        description = '';
+        conditions = new Array()
+      });
 
       this.store.dispatch(ACTION.ADD_CONNECTOR, createdConnector);
     }

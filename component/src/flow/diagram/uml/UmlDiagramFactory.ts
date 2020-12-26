@@ -10,6 +10,7 @@ import StartNode from '@app/flow/diagram/uml/node/StartNode';
 import TextNode from '@app/flow/diagram/uml/node/TextNode';
 import VerticalForkJoinNode from '@app/flow/diagram/uml/node/VerticalForkJoinNode';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
+import LinkParams from "@app/flow/diagram/LinkParams";
 
 
 export enum UmlNodes {
@@ -36,8 +37,8 @@ export default class UmlDiagramFactory implements DiagramFactory {
     return new AnchorPoint(ctx, point)
   }
 
-  public getLink(points: AnchorPoint[]) {
-    return new DirectionalLink(this.canvas, this.htmlLayer, points, points.length === 2);
+  public getLink(points: AnchorPoint[], params: LinkParams) {
+    return new DirectionalLink(this.canvas, this.htmlLayer, points, points.length === 2, params);
   }
 
   public getIndicator(params: IndicatorParams) {
@@ -47,10 +48,6 @@ export default class UmlDiagramFactory implements DiagramFactory {
   public getNode(nodeName: string, nodeParams: any) {
     let node = null;
     switch (nodeName) {
-      case UmlNodes.ActivityNode: {
-        node = new ActivityNode(this.canvas, this.htmlLayer, nodeParams);
-        break;
-      }
       case UmlNodes.DecisionNode: {
         node = new DecisionNode(this.canvas, this.htmlLayer, nodeParams);
         break;
@@ -76,7 +73,9 @@ export default class UmlDiagramFactory implements DiagramFactory {
         node = new VerticalForkJoinNode(this.canvas, this.htmlLayer, nodeParams);
         break;
       }
-      default: {
+      default:
+      case UmlNodes.ActivityNode: {
+        node = new ActivityNode(this.canvas, this.htmlLayer, nodeParams);
         break;
       }
     }

@@ -34,13 +34,18 @@ export default abstract class Link implements Shape {
   protected htmlLayer: HTMLElement;
   protected ctx: CanvasRenderingContext2D;
 
-  constructor(canvas: HTMLCanvasElement, htmlLayer: HTMLElement, points: AnchorPoint[]) {
+  constructor(canvas: HTMLCanvasElement, htmlLayer: HTMLElement, points: AnchorPoint[], params: LinkParams) {
     this.canvas = canvas;
     this.htmlLayer = htmlLayer;
     this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    this.id = Guid.newGuid();
+    this.id = params.id || Guid.newGuid();
     this.points = points;
+
+    this.label = params.label || '';
+    this.name = params.name || '';
+    this.description = params.description || '';
+    this.conditions = params.conditions || new Array();
   }
 
   public abstract draw(): void;
@@ -61,11 +66,9 @@ export default abstract class Link implements Shape {
     return {
       id: this.id,
       label: this.label,
-      //Свойства объекта WorkflowStatus
-      // workflowStatusId: this.workflowStatusId,
       name: this.name,
-      description: this.description
-      //TODO Добавить EditableProperties, которое является коллекцией EditableProperty[]
+      description: this.description,
+      conditions: this.conditions
     };
   };
 }

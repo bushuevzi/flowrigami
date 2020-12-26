@@ -12,6 +12,8 @@ import Indicator, { IndicatorParams } from '@app/flow/diagram/common/Indicator';
 import DirectionalLink from '@app/flow/diagram/common/link/DirectionalLink';
 import DiagramFactory from '@app/flow/diagram/DiagramFactory';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
+import LinkParams from "@app/flow/diagram/LinkParams";
+import Guid from "@app/flow/utils/TsUtils";
 
 
 export enum BpmnNodes {
@@ -40,7 +42,13 @@ export default class BpmnNodeFactory implements DiagramFactory {
   }
 
   public getLink(points: AnchorPoint[]) {
-    return new DirectionalLink(this.canvas, this.htmlLayer, points, points.length === 2);
+    return new DirectionalLink(this.canvas, this.htmlLayer, points, points.length === 2, new class implements LinkParams{
+      id = Guid.newGuid();
+      label = '';
+      name = '';
+      description = '';
+      conditions = new Array()
+    });
   }
 
   public getIndicator(params: IndicatorParams) {

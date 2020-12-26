@@ -6,6 +6,8 @@ import ACTION from '@app/flow/store/ActionTypes';
 import Store from '@app/flow/store/Store';
 import FileUtils from '@app/flow/utils/FileUtils';
 import { checkboxChange, inputFileChange } from '@app/flow/utils/HtmlUtils';
+import LinkParams from "@app/flow/diagram/LinkParams";
+import Guid from "@app/flow/utils/TsUtils";
 
 
 export default class TopToolbar {
@@ -160,7 +162,13 @@ export default class TopToolbar {
       node.draw();
     });
     this.store.links.forEach((it) => {
-      nodeFactory.getLink(it.points).draw();
+      nodeFactory.getLink(it.points, new class implements LinkParams{
+        id = Guid.newGuid();
+        label = '';
+        name = '';
+        description = '';
+        conditions = new Array()
+      }).draw();
     });
 
     const fileName = 'UML.png';

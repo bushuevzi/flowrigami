@@ -79,6 +79,7 @@ export default abstract class Diagram {
     });
   }
 
+  // TODO Здесь выполняется импорт
   public import(object: ExportObject) {
     const indicators: Indicator[] = [];
     const links: Link[] = [];
@@ -111,7 +112,7 @@ export default abstract class Diagram {
         return connectionPoint || this.nodeFactory.getAnchorPoint(point);
       });
 
-      const link = this.nodeFactory.getLink(points);
+      const link = this.nodeFactory.getLink(points, it.params);
 
       // @TODO
       link.points[0].links.push(link as DirectionalLink);
