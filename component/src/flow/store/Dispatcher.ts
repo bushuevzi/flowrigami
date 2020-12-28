@@ -80,6 +80,17 @@ export default class Dispatcher {
         }
         break;
       }
+      case ACTION.UPDATE_CONDITION_EXPRESSION_TEXT: {
+        const condition = this.store.findConditionById(payload.id);
+        if (condition) {
+          condition.expression = payload.text;
+        }
+        break;
+      }
+      case ACTION.DELETE_CONDITION: {
+        this.store.removeCondition(payload.id);
+        break;
+      }
       case ACTION.SET_CONNECTOR:
         this.store.selectedConnector = payload;
         break;

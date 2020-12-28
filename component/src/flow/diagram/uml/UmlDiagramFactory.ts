@@ -11,6 +11,7 @@ import TextNode from '@app/flow/diagram/uml/node/TextNode';
 import VerticalForkJoinNode from '@app/flow/diagram/uml/node/VerticalForkJoinNode';
 import CoordinatePoint from '@app/flow/geometry/CoordinatePoint';
 import LinkParams from "@app/flow/diagram/LinkParams";
+import Condition from "@app/flow/diagram/Condition";
 
 
 export enum UmlNodes {
@@ -38,6 +39,18 @@ export default class UmlDiagramFactory implements DiagramFactory {
   }
 
   public getLink(points: AnchorPoint[], params: LinkParams) {
+    //TODO Delete
+    if(params.conditions?.length == 0){
+      params.conditions = [
+        {
+          id: "0858e05f-457e-40a8-a642-b03dac352a22",
+          name: "Наличие исполнителя.",
+          description: "Тикету необходим исполнитель для выполенния работ.",
+          expression: "ticket.executor != null",
+          errorMessage: "Необходимо установить исполнителя",
+        }
+      ];
+    }
     return new DirectionalLink(this.canvas, this.htmlLayer, points, points.length === 2, params);
   }
 

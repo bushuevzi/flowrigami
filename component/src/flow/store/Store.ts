@@ -132,6 +132,23 @@ export default class Store extends Observable {
   public findLinkById(id: string) {
     return this.links.find((it) => it.id === id);
   }
+  public findConditionById(id: string) {
+    let link = this.links.find(link => link.conditions.some(c => c.id === id));
+    return link?.conditions.find(c => c.id === id);
+  }
+  public findLinkByConditionId(id: string) {
+    return this.links.find(link => link.conditions.some(c => c.id === id));
+  }
+
+  public removeCondition(id: string) {
+    let link = this.findLinkByConditionId(id);
+    let deletableCondition = this.findConditionById(id);
+    if(link && deletableCondition){
+      const index = link.conditions.indexOf(deletableCondition, 0);
+      if(index > -1) link.conditions.splice(index, 1);
+    }
+
+  }
 
   public findNodeByCoordinates(x: number, y: number) {
     return this.nodes.find((it) => it.includes(x, y));

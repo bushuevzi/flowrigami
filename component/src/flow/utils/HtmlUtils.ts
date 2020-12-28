@@ -4,6 +4,8 @@ export const inputFileChange = (handler: (checked: any) => void) => (e: Event) =
 
 export const textareaChange = (handler: (value: string) => void) => (e: Event) => handler((e.target as HTMLInputElement).value);
 
+export const clickButton = (handler: (clicked: any) => void) => (e: Event) => handler(e.target as HTMLInputElement);
+
 
 export const moveCursorToTheEnd = (domNode: Node) => {
   const range = document.createRange();

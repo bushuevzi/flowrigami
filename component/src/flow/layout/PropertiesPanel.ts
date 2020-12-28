@@ -4,7 +4,9 @@ import Node from '@app/flow/diagram/Node';
 import ACTION from '@app/flow/store/ActionTypes';
 import Store from '@app/flow/store/Store';
 import { textareaChange } from '@app/flow/utils/HtmlUtils';
+import { clickButton } from '@app/flow/utils/HtmlUtils';
 import Link from "@app/flow/diagram/Link";
+import 'bootstrap';
 
 
 export default class PropertiesPanel {
@@ -64,10 +66,40 @@ export default class PropertiesPanel {
 
     // TODO здесь добавляем Свойства WorkflowSatus и Переходов, чтобы можно было бы их редактировать
 
+    // Работа со свойствами только ПЕРЕХОДОВ
+    if(shape instanceof Link){
+      // Conditions
+      const conditionsContainerLabel = this.createPropertyLabelElement('Условия выполнения перехода', id);
+      const conditionsContainerElement = this.createPropertyElement([conditionsContainerLabel], "conditions");
+      shape.conditions.forEach(condition => {
+        // Поле выражения
+        const conditionExpressionInput = this.createPropertyInputElement(condition.id, condition.expression);
+        conditionExpressionInput.oninput = textareaChange((value) => {
+          this.store.dispatch(ACTION.UPDATE_CONDITION_EXPRESSION_TEXT, { id: condition.id, text: value });
+        });
+        // Кнопка удаления
+        const conditionDeleteButton = this.createDeleteButtonElement(id);
+        conditionDeleteButton.onclick = clickButton(() => {
+          this.store.dispatch(ACTION.DELETE_CONDITION, { id: condition.id });
+          // Перерисовываем свойства после удаления условия
+          conditionDeleteButton.parentElement?.remove();
+          // let conditionElements = conditionsContainerElement?.childNodes;
+          // conditionElements.forEach((currentValue, currentIndex, listObj)=>{
+          //   for(let i = 0; i < currentValue.childNodes.length; i ++){
+          //
+          //   }
+          // });
+          // if(removedHTMLElement) conditionsContainerElement.removeChild(removedHTMLElement);
+        });
+        conditionsContainerElement.appendChild(this.createPropertyElement([conditionExpressionInput, conditionDeleteButton]))
+      });
+
+      panelBodyDocumentFragment.appendChild(conditionsContainerElement);
+    }
+
     panelBodyDocumentFragment.appendChild(shapeIdElement);
     panelBodyDocumentFragment.appendChild(shapeLabelElement);
     panelBodyDocumentFragment.appendChild(shapeDescriptionElement);
-
     this.propertiesPanelItems.appendChild(panelBodyDocumentFragment);
   };
 
@@ -91,6 +123,30 @@ export default class PropertiesPanel {
     return span;
   };
 
+  private createPropertyInputElement = (id: string, value: string) => {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = id;
+    input.value = value;
+
+    return input;
+  };
+
+  private createDeleteButtonElement = (id: string) => {
+    const button = document.createElement('button');
+    button.id = id;
+    button.classList.add('btn');
+    button.classList.add('btn-icon');
+    button.classList.add('btn-sm');
+    button.classList.add('btn-outline-danger');
+    const trashIcon = document.createElement('i');
+    trashIcon.classList.add('fa');
+    trashIcon.classList.add('fa-trash-o');
+    button.appendChild(trashIcon);
+
+    return button;
+  };
+
   private createPropertyTextareaElement = (id: string, value: string) => {
     const textarea = document.createElement('textarea');
     textarea.setAttribute('rows', '3');
@@ -100,8 +156,9 @@ export default class PropertiesPanel {
     return textarea;
   };
 
-  private createPropertyElement = (children: HTMLElement[]) => {
+  private createPropertyElement = (children: HTMLElement[], id?: string) => {
     const element = document.createElement('div');
+    if(id) element.id = id;
     element.classList.add('fl-prop');
     children.forEach((it) => element.appendChild(it));
 
